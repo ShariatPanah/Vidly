@@ -5,6 +5,7 @@ using Vidly.Web.MappingProfiles;
 using AutoMapper;
 using System.Reflection;
 using Vidly.Core.Domain;
+using Vidly.Web.Profiler;
 
 namespace Vidly.Web
 {
@@ -37,6 +38,7 @@ namespace Vidly.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddMiniProfilerConfig();
             builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             var app = builder.Build();
@@ -60,6 +62,7 @@ namespace Vidly.Web
 
             app.UseAuthorization();
 
+            app.UseMiniProfiler();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

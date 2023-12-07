@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Vidly.Core.Domain;
 using Vidly.Infrastructure.Data;
@@ -17,6 +18,8 @@ namespace Vidly.Web.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        [OutputCache(Duration = 60)]
         public async Task<IActionResult> Index()
         {
             if (User.IsInRole(IdentityRoles.CanManageMovies))
