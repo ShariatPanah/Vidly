@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vidly.Core.Domain;
 using Vidly.Infrastructure.Data;
+using Vidly.Shared;
 
 namespace Vidly.Web.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -16,7 +19,10 @@ namespace Vidly.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View();
+            if (User.IsInRole(IdentityRoles.CanManageMovies))
+                return View("List");
+
+            return View("ReadOnlyList");
         }
 
         [HttpGet]
@@ -33,6 +39,7 @@ namespace Vidly.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<IActionResult> Create()
         {
             ViewBag.Genres = new SelectList(await _context.Genres.ToListAsync(), "Id", "Name");
@@ -42,6 +49,7 @@ namespace Vidly.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<IActionResult> Create(Movie movie)
         {
             if (!ModelState.IsValid)
@@ -57,6 +65,7 @@ namespace Vidly.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,6 +81,7 @@ namespace Vidly.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<IActionResult> Edit(int id, Movie movie)
         {
             if (movie.Id != id)
@@ -90,6 +100,7 @@ namespace Vidly.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -104,6 +115,7 @@ namespace Vidly.Web.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var movie = await _context.Movies.FirstOrDefaultAsync(m => m.Id == id);

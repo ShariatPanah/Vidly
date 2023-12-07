@@ -4,6 +4,7 @@ using Vidly.Infrastructure.Data;
 using Vidly.Web.MappingProfiles;
 using AutoMapper;
 using System.Reflection;
+using Vidly.Core.Domain;
 
 namespace Vidly.Web
 {
@@ -22,14 +23,17 @@ namespace Vidly.Web
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
                 {
-                    options.SignIn.RequireConfirmedAccount = true;
+                    options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireDigit = true;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                 })
+                .AddUserManager<UserManager<ApplicationUser>>()
+                .AddSignInManager<SignInManager<ApplicationUser>>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 

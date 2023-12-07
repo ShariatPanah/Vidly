@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vidly.Infrastructure\Vidly.Infrastructure.csproj" />
+    <ProjectReference Include="..\Vidly.Shared\Vidly.Shared.csproj" />
   </ItemGroup>
 
 </Project>
