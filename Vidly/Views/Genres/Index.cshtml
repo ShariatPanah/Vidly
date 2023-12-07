@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Vidly.Core.Domain.Genre>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Genres</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="genres" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @*  @foreach (var item in Model)
+        {
+        <tr>
+        <td>
+        @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
+        </tr>
+        } *@
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $("#genres").DataTable({
+                ajax: {
+                    url: "/api/genres",
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "name",
+                    },
+                    {
+                        data: "id",
+                        render: function (data, type, genre) {
+                            return "<a href='/genres/Edit?id=" + genre.id + "'>Edit</a> | "
+                                + "<a href='/genres/Details?id=" + genre.id + "'>Details</a> | "
+                                + "<button class='btn btn-link js-delete' data-genre-id='" + genre.id + "'>Delete</button>"
+                        }
+                    }
+                ]
+            });
+
+            $("#genres").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you wanna delete this genre?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/genres/" + button.attr("data-genre-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            },
+                            error: function () {
+                                alert("An error occured")
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

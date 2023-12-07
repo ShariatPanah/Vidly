@@ -1,0 +1,50 @@
+﻿@model Vidly.Core.Domain.Customer
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="mb-3 mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3 mb-3">
+                <label asp-for="Birthdate" class="control-label"></label>
+                <input asp-for="Birthdate" type="date" class="form-control" />
+                <span asp-validation-for="Birthdate" class="text-danger"></span>
+            </div>
+            <div class="mb-3 mb-3 form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsSubscribedToNewsLetter" /> @Html.DisplayNameFor(model => model.IsSubscribedToNewsLetter)
+                </label>
+            </div>
+            <div class="mb-3 mb-3">
+                <label asp-for="MembershipTypeId" class="control-label"></label>
+                <select asp-for="MembershipTypeId" class="form-control" asp-items="ViewBag.MembershipTypeId"></select>
+                <span asp-validation-for="MembershipTypeId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

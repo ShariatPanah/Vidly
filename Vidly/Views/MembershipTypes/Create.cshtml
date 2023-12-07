@@ -1,0 +1,50 @@
+﻿@model Vidly.Core.Domain.MembershipType
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="Post" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3 mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 mb-3">
+                <label asp-for="SignUpFee" class="control-label"></label>
+                <input asp-for="SignUpFee" class="form-control" />
+                <span asp-validation-for="SignUpFee" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 mb-3">
+                <label asp-for="DurationInMonths" class="control-label"></label>
+                <input asp-for="DurationInMonths" class="form-control" />
+                <span asp-validation-for="DurationInMonths" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 mb-3">
+                <label asp-for="DiscountRate" class="control-label"></label>
+                <input asp-for="DiscountRate" class="form-control" />
+                <span asp-validation-for="DiscountRate" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
