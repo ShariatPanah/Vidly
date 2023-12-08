@@ -61,6 +61,7 @@ namespace Vidly.Web.Controllers
                 return View(movie);
             }
 
+            movie.NumberAvailable = movie.NumberInStock;
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
 

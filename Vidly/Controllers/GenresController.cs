@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vidly.Core.Domain;
 using Vidly.Infrastructure.Data;
+using Vidly.Shared;
 
 namespace Vidly.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = IdentityRoles.CanManageGenres)]
     public class GenresController : Controller
     {
         private readonly ApplicationDbContext _context;

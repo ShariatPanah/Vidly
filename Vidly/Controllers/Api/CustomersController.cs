@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vidly.Core.Domain;
 using Vidly.Core.Dtos;
 using Vidly.Infrastructure.Data;
+using Vidly.Shared;
 
 namespace Vidly.Web.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = IdentityRoles.CanManageCustomers)]
     public class CustomersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

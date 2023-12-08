@@ -26,8 +26,11 @@ namespace Vidly.Core.Domain
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime DateAdded { get; set; }
 
-        [Display(Name = "In Stock")]
-        public int InStock { get; set; }
+        [Display(Name = "Number In Stock")]
+        public int NumberInStock { get; set; }
+
+        [Display(Name = "Number Available")]
+        public int NumberAvailable { get; set; }
 
 
         public Genre Genre { get; set; }

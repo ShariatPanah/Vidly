@@ -6,6 +6,10 @@ using AutoMapper;
 using System.Reflection;
 using Vidly.Core.Domain;
 using Vidly.Web.Profiler;
+using Glimpse;
+using Glimpse.Core;
+using Glimpse.AspNet;
+using Glimpse.Mvc;
 
 namespace Vidly.Web
 {
@@ -40,6 +44,7 @@ namespace Vidly.Web
 
             builder.Services.AddMiniProfilerConfig();
             builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+            //builder.Services.AddGlimpse();
 
             var app = builder.Build();
 
@@ -47,6 +52,7 @@ namespace Vidly.Web
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
+                //app.UseGlimpse();
             }
             else
             {

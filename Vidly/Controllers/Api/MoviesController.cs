@@ -11,7 +11,7 @@ namespace Vidly.Web.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = IdentityRoles.CanManageMovies)]
+    [Authorize]
     public class MoviesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -46,6 +46,7 @@ namespace Vidly.Web.Controllers.Api
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<IActionResult> PutMovie(int id, MovieDto movieDto)
         {
             if (id != movieDto.Id)
@@ -74,9 +75,11 @@ namespace Vidly.Web.Controllers.Api
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<ActionResult<Movie>> PostMovie(MovieDto movieDto)
         {
             var movie = _mapper.Map<MovieDto, Movie>(movieDto);
+            movie.NumberAvailable = movie.NumberInStock;
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
 
@@ -86,6 +89,7 @@ namespace Vidly.Web.Controllers.Api
 
         // DELETE: api/Movies/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = IdentityRoles.CanManageMovies)]
         public async Task<IActionResult> DeleteMovie(int id)
         {
             var movie = await _context.Movies.FindAsync(id);

@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vidly.Core.Domain;
 using Vidly.Infrastructure.Data;
+using Vidly.Shared;
 
 namespace Vidly.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = IdentityRoles.CanManageCustomers)]
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;

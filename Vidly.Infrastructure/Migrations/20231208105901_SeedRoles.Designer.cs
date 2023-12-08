@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vidly.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Vidly.Infrastructure.Data;
 namespace Vidly.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231208105901_SeedRoles")]
+    partial class SeedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,10 +316,7 @@ namespace Vidly.Infrastructure.Migrations
                     b.Property<byte>("GenreId")
                         .HasColumnType("tinyint");
 
-                    b.Property<int>("NumberAvailable")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberInStock")
+                    b.Property<int>("InStock")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReleaseDate")
@@ -332,35 +332,6 @@ namespace Vidly.Infrastructure.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("Vidly.Core.Domain.Rental", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateRented")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateReturned")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Rentals");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -434,25 +405,6 @@ namespace Vidly.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Genre");
-                });
-
-            modelBuilder.Entity("Vidly.Core.Domain.Rental", b =>
-                {
-                    b.HasOne("Vidly.Core.Domain.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vidly.Core.Domain.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Movie");
                 });
 #pragma warning restore 612, 618
         }
